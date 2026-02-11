@@ -1,12 +1,28 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import Header from "@/components/Header";
+import Dashboard from "@/components/Dashboard";
+import ChatInterface from "@/components/ChatInterface";
+import WeatherPage from "@/components/WeatherPage";
+import MandiPrices from "@/components/MandiPrices";
 
 const Index = () => {
+  const [currentPage, setCurrentPage] = useState("dashboard");
+  const [lang, setLang] = useState("en");
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <Header
+        currentLang={lang}
+        onLangChange={setLang}
+        onNavigate={setCurrentPage}
+        currentPage={currentPage}
+      />
+      <main className="container max-w-2xl py-4">
+        {currentPage === "dashboard" && <Dashboard lang={lang} onNavigate={setCurrentPage} />}
+        {currentPage === "chat" && <ChatInterface lang={lang} onBack={() => setCurrentPage("dashboard")} />}
+        {currentPage === "weather" && <WeatherPage lang={lang} onBack={() => setCurrentPage("dashboard")} />}
+        {currentPage === "mandi" && <MandiPrices lang={lang} onBack={() => setCurrentPage("dashboard")} />}
+      </main>
     </div>
   );
 };
